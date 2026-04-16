@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Детали товара - Лавка у Оливандера</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/recommendations.css">
+  <style>
+    body { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); background-attachment: fixed; }
+    .product-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+    .product-image { background: white; padding: 2rem; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+    .emoji-large { font-size: 200px; }
+    .product-info { background: white; padding: 2rem; border-radius: 16px; }
+    .price { color: #667eea; font-size: 2rem; font-weight: bold; margin: 1rem 0; }
+    .specs-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    .specs-table th, .specs-table td { padding: 0.8rem; text-align: left; border-bottom: 1px solid #eee; }
+    .specs-table th { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+    .features { margin: 1.5rem 0; }
+    .features ul { list-style: none; padding: 0; }
+    .features li { padding: 0.5rem 0; }
+    @media (max-width: 768px) { .product-detail { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo"><h1>🪄 Лавка у Оливандера</h1></div>
+      <nav class="nav">
+        <ul>
+          <li><a href="/index.html">Главная</a></li>
+          <li><a href="/catalog/">Каталог</a></li>
+          <li><a href="/service/book.html">Сервис</a></li>
+          <li><a href="/cart.html">Корзина</a></li>
+          <li><a href="/login.html">Войти</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <a href="./" style="margin-bottom: 1rem; display: inline-block; color: #6b4b9b; text-decoration: none;">← Вернуться в каталог</a>
+        <div class="product-detail"></div>
+      </div>
+    </section>
+
+    <!-- Рекомендации: похожие товары -->
+    <section class="section">
+      <div class="container">
+        <h3 style="color: #667eea; margin-bottom: 1rem;">🔍 Похожие товары</h3>
+        <div id="similar-products-container"></div>
+      </div>
+    </section>
+
+    <!-- Рекомендации: часто покупают вместе -->
+    <section class="section">
+      <div class="container">
+        <h3 style="color: #667eea; margin-bottom: 1rem;">🛍️ Часто покупают вместе</h3>
+        <div id="together-products-container"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Лавка у Оливандера. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/recommendations.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = parseInt(urlParams.get('id')) || 1;
+      
+      if (window.recommendationWidget) {
+        window.recommendationWidget.renderSimilar('similar-products-container', productId, 4);
+        window.recommendationWidget.renderTogether('together-products-container', productId, 4);
+        
+        // Добавим видимый контент через setTimeout чтобы дать время на загрузку
+        setTimeout(() => {
+          const similarContainer = document.getElementById('similar-products-container');
+          const togetherContainer = document.getElementById('together-products-container');
+          
+          console.log('📊 Финальная проверка контейнеров:');
+          console.log('similar длина HTML:', similarContainer.innerHTML.length);
+          console.log('together длина HTML:', togetherContainer.innerHTML.length);
+          console.log('similar содержимое:', similarContainer.innerHTML.substring(0, 200));
+          console.log('together содержимое:', togetherContainer.innerHTML.substring(0, 200));
+          
+          // Добавим видимый background чтобы увидеть где карточки
+          if (similarContainer.innerHTML.length > 0) {
+            similarContainer.style.backgroundColor = '#f9f9f9';
+          }
+          if (togetherContainer.innerHTML.length > 0) {
+            togetherContainer.style.backgroundColor = '#f9f9f9';
+          }
+        }, 500);
+      }
+    });
+  </script>
+</body>
+</html>

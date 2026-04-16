@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Управление каталогом — Админ</title>
+	<link rel="stylesheet" href="../assets/css/style.css">
+	<style>
+		.grid-simple { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+		.product-row { background: white; padding: 1rem; border-radius: 8px; display:flex; justify-content:space-between; align-items:center; }
+	</style>
+</head>
+<body>
+	<header class="header"><div class="header-content"><div class="logo"><h1>🪄 Лавка — Управление каталогом</h1></div></div></header>
+	<main>
+		<section class="section">
+			<div class="container">
+				<h2>Каталог товаров</h2>
+				<div id="products" class="grid-simple"></div>
+			</div>
+		</section>
+	</main>
+	<script>
+		async function load() {
+			const res = await fetch('/api/products');
+			const data = await res.json();
+			const el = document.getElementById('products');
+			el.innerHTML = data.map(p => `<div class="product-row"><div><strong>${p.name}</strong><div class=\"muted\">${p.category} — ${p.price} ₽ — в наличии: ${p.stock}</div></div><div><button onclick=\"alert('Удаление в учебном проекте не реализовано')\" class=\"btn\">Удалить</button></div></div>`).join('');
+		}
+		load();
+	</script>
+</body>
+</html>
+

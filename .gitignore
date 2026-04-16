@@ -1,0 +1,13 @@
+*.md
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+.env
+.vscode/
+temp_upload_repo/
+8\ семестр/
+project/отчеты/generate*.py
+project/generate_report.py
+project/test.docx
+project/отчеты/*.docx

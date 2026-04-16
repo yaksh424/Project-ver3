@@ -1,0 +1,176 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Волшебная палочка №1",
+      "category": "Палочки",
+      "description": "Кленовая палочка, 11 дюймов, с сердцевиной из пера феникса.",
+      "price": 1200,
+      "stock": 5,
+      "image": "/assets/img/wand1.svg"
+    },
+    {
+      "id": 2,
+      "name": "Масло для метлы",
+      "category": "Средства",
+      "description": "Специальное масло для улучшения скольжения метлы.",
+      "price": 250,
+      "stock": 12,
+      "image": "/assets/img/oil.svg"
+    },
+    {
+      "id": 3,
+      "name": "Метла «Сквиббы»",
+      "category": "Транспорт",
+      "description": "Легкая спортивная метла для гонок.",
+      "price": 4500,
+      "stock": 2,
+      "image": "/assets/img/broom.svg"
+    },
+    {
+      "id": 4,
+      "name": "Набор зелий (3 шт.)",
+      "category": "Зелья",
+      "description": "Мини-набор популярных зелий для начинающих магов.",
+      "price": 800,
+      "stock": 7,
+      "image": "/assets/img/potions.svg"
+    },
+    {
+      "id": 5,
+      "name": "Шляпа-коробка",
+      "category": "Аксессуары",
+      "description": "Скромная шляпа для вечерних прогулок по Хогсмиду.",
+      "price": 300,
+      "stock": 20,
+      "image": "/assets/img/hat.svg"
+    },
+    {
+      "id": 6,
+      "name": "Волшебная палочка №2",
+      "category": "Палочки",
+      "description": "Палочка из тиса, 13 дюймов, с ядром из волоса единорога.",
+      "price": 1500,
+      "stock": 3,
+      "image": "/assets/img/wand2.svg"
+    },
+    {
+      "id": 7,
+      "name": "Завтрак в Хогсмиде",
+      "category": "Еда",
+      "description": "Набор волшебных сладостей и напитков.",
+      "price": 450,
+      "stock": 15,
+      "image": "/assets/img/breakfast.svg"
+    },
+    {
+      "id": 8,
+      "name": "Светящийся шар",
+      "category": "Магия",
+      "description": "Шар для гадания с волшебным свечением.",
+      "price": 2200,
+      "stock": 4,
+      "image": "/assets/img/orb.svg"
+    },
+    {
+      "id": 9,
+      "name": "Мешочек для компонентов",
+      "category": "Аксессуары",
+      "description": "Магический мешочек для хранения ингредиентов зелий.",
+      "price": 600,
+      "stock": 8,
+      "image": "/assets/img/pouch.svg"
+    },
+    {
+      "id": 10,
+      "name": "Чернила для письма",
+      "category": "Средства",
+      "description": "Волшебные чернила, которые светятся в темноте.",
+      "price": 150,
+      "stock": 25,
+      "image": "/assets/img/ink.svg"
+    },
+    {
+      "id": 11,
+      "name": "Метла Чемпиона",
+      "category": "Транспорт",
+      "description": "Профессиональная метла для квиддича с магическим ускорением.",
+      "price": 8500,
+      "stock": 1,
+      "image": "/assets/img/champion-broom.svg"
+    },
+    {
+      "id": 12,
+      "name": "Книга заклинаний",
+      "category": "Знания",
+      "description": "Полный справочник базовых заклинаний для начинающих магов.",
+      "price": 950,
+      "stock": 6,
+      "image": "/assets/img/spellbook.svg"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "name": "Иван Петров",
+      "email": "ivan@example.com",
+      "phone": "+7-900-123-45-67",
+      "address": "ул. Волшебная, д. 5",
+      "productId": 1,
+      "productName": "Волшебная палочка №1",
+      "quantity": 1,
+      "total": 1200,
+      "status": "processing",
+      "createdAt": "2025-12-20T10:30:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Мария Сидорова",
+      "email": "maria@example.com",
+      "phone": "+7-901-987-65-43",
+      "address": "ул. Магическая, д. 12",
+      "productId": 3,
+      "productName": "Метла «Сквиббы»",
+      "quantity": 1,
+      "total": 4500,
+      "status": "completed",
+      "createdAt": "2025-12-15T14:45:00.000Z"
+    },
+    {
+      "id": 3,
+      "items": [
+        {
+          "productId": 1,
+          "quantity": 1
+        }
+      ],
+      "total": 1200,
+      "status": "processing",
+      "createdAt": "2026-02-11T11:14:59.883Z"
+    }
+  ],
+  "bookings": [
+    {
+      "id": 1,
+      "name": "Алексей Иванов",
+      "phone": "+7-902-111-22-33",
+      "email": "alex@example.com",
+      "serviceType": "Мастер-класс по палочкам",
+      "date": "2025-12-28",
+      "description": "Хочу научиться выбирать правильную палочку",
+      "status": "pending",
+      "createdAt": "2025-12-21T09:15:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Елена Смирнова",
+      "phone": "+7-903-333-44-55",
+      "email": "elena@example.com",
+      "serviceType": "Консультация по зельям",
+      "date": "2025-12-30",
+      "description": "",
+      "status": "confirmed",
+      "createdAt": "2025-12-22T11:20:00.000Z"
+    }
+  ]
+}

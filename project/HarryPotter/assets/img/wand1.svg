@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="100%" height="100%" fill="#fff7f0"/>
+  <g transform="translate(30,30)">
+    <rect x="0" y="80" width="140" height="12" rx="6" fill="#6b4b9b"/>
+    <rect x="10" y="70" width="120" height="6" rx="3" fill="#8f6fbf"/>
+    <circle cx="140" cy="86" r="10" fill="#ffd700"/>
+    <text x="10" y="25" font-family="Arial" font-size="18" fill="#6b4b9b">Палочка</text>
+  </g>
+</svg>

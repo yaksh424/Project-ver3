@@ -1,0 +1,131 @@
+<!-- 
+  Пример интеграции системы рекомендаций на страницу корзины/оформления
+  "Лавка у Оливандера"
+  
+  Добавьте этот код в ваш order/checkout.html перед закрывающим </body>
+-->
+
+<!-- Рекомендации в корзине/при оформлении -->
+<section class="cart-recommendations">
+  <style>
+    .cart-recommendations {
+      margin-top: 2rem;
+      padding: 2rem 0;
+      border-top: 2px dashed #ffd700;
+    }
+    
+    .cart-recommendations h2 {
+      text-align: center;
+      color: #2c1810;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+  </style>
+
+  <h2>✨ Рекомендуем добавить в заказ:</h2>
+  
+  <!-- Популярные товары для дополнения заказа -->
+  <div id="cart-recommendations-container" class="loading">
+    <p style="text-align: center;">🔮 Подбираем идеальные дополнения к вашему заказу...</p>
+  </div>
+
+</section>
+
+<!-- Подключить стили и скрипты (если они еще не подключены) -->
+<link rel="stylesheet" href="/assets/css/recommendations.css">
+<script src="/assets/js/recommendations.js"></script>
+
+<!-- Инициализация рекомендаций для корзины -->
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Получить товары из корзины (если у вас есть такая функция)
+    // Если корзина хранится в localStorage или переменной
+    let cartItems = getCartItems(); // Ваша функция получения товаров из корзины
+    
+    if (!cartItems || cartItems.length === 0) {
+      // Если корзина пуста, показываем популярные товары
+      recommendationWidget.renderPopular('cart-recommendations-container', 6);
+    } else {
+      // Если в корзине есть товары, показываем рекомендации на основе первого товара
+      const firstItemId = cartItems[0].id || cartItems[0];
+      recommendationWidget.renderTogether('cart-recommendations-container', firstItemId, 6);
+    }
+  });
+  
+  /**
+   * Получить товары из корзины
+   * ВАЖНО: Измените эту функцию на вашу реальную функцию получения корзины
+   */
+  function getCartItems() {
+    // Вариант 1: Из localStorage
+    const cart = localStorage.getItem('cart');
+    if (cart) {
+      try {
+        return JSON.parse(cart);
+      } catch (e) {
+        console.error('Ошибка парсинга корзины:', e);
+        return [];
+      }
+    }
+    
+    // Вариант 2: Из глобальной переменной (если она есть)
+    if (window.shoppingCart && Array.isArray(window.shoppingCart)) {
+      return window.shoppingCart;
+    }
+    
+    // Вариант 3: Из DOM (парсим элементы страницы)
+    const cartItemElements = document.querySelectorAll('[data-cart-item-id]');
+    return Array.from(cartItemElements).map(el => 
+      parseInt(el.dataset.cartItemId)
+    );
+  }
+</script>
+
+<!-- Дополнительный пример: рекомендации по категориям в корзине -->
+<script>
+  /**
+   * Расширенный рендер рекомендаций для корзины
+   * С анализом категорий товаров в корзине
+   */
+  async function renderAdvancedCartRecommendations() {
+    const container = document.getElementById('cart-recommendations-container');
+    if (!container) return;
+
+    try {
+      // Получить все товары из API
+      const productsResponse = await fetch('/api/products');
+      const products = await productsResponse.json();
+      
+      // Получить товары из корзины
+      let cartItems = getCartItems();
+      
+      if (!cartItems || cartItems.length === 0) {
+        // Корзина пуста - показываем популярные
+        recommendationWidget.renderPopular('cart-recommendations-container', 6);
+        return;
+      }
+
+      // Определяем категории товаров в корзине
+      const cartCategories = new Set();
+      cartItems.forEach(itemId => {
+        const product = products.find(p => p.id === itemId);
+        if (product) {
+          cartCategories.add(product.category);
+        }
+      });
+
+      console.log('📦 Категории в корзине:', Array.from(cartCategories));
+
+      // Используем первый товар для получения связанных товаров
+      const firstItemId = cartItems[0];
+      recommendationWidget.renderTogether('cart-recommendations-container', firstItemId, 6);
+      
+    } catch (error) {
+      console.error('Ошибка при загрузке рекомендаций корзины:', error);
+      recommendationWidget.renderPopular('cart-recommendations-container', 6);
+    }
+  }
+
+  // Раскомментируйте для использования расширенной версии:
+  // document.addEventListener('DOMContentLoaded', renderAdvancedCartRecommendations);
+</script>

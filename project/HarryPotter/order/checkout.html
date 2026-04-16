@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Оформление заказа - Лавка у Оливандера</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/recommendations.css">
+  <style>
+    body { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); background-attachment: fixed; }
+    .checkout-container { display: grid; grid-template-columns: 1fr 300px; gap: 2rem; }
+    .form-section { background: white; padding: 2rem; border-radius: 16px; margin-bottom: 1.5rem; }
+    .form-section h3 { color: #667eea; margin-bottom: 1rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.3rem; font-weight: 600; }
+    .form-group input, .form-group select { width: 100%; padding: 0.6rem; border: 2px solid #e0e0e0; border-radius: 8px; }
+    .summary { background: white; padding: 1.5rem; border-radius: 16px; height: fit-content; position: sticky; top: 100px; }
+    .summary h4 { margin-top: 0; }
+    .summary-item { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+    .summary-total { display: flex; justify-content: space-between; padding: 1rem 0; font-weight: bold; font-size: 1.1rem; color: #667eea; }
+    @media (max-width: 768px) { .checkout-container { grid-template-columns: 1fr; } .summary { position: static; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo"><h1>🪄 Лавка у Оливандера</h1></div>
+      <nav class="nav">
+        <ul>
+          <li><a href="/index.html">Главная</a></li>
+          <li><a href="/catalog/">Каталог</a></li>
+          <li><a href="/service/book.html">Сервис</a></li>
+          <li><a href="/cart.html">Корзина</a></li>
+          <li><a href="/login.html">Войти</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">💳 Оформление заказа</h2>
+        <p style="text-align:center; max-width: 760px; margin: 0 auto 2rem; color: #4c4c73;">Заполните заказ быстро и удобно. Мы сохраняем выбранный товар, чтобы вы могли сразу перейти к оплате без лишних действий.</p>
+
+        <div id="popular-products-container" style="margin-bottom: 2.5rem;"></div>
+
+        <div class="checkout-container">
+          <div>
+            <div class="form-section">
+              <h3>📋 Контактные данные</h3>
+              <form action="order" method="POST">
+                <div class="form-group">
+                  <label>Имя и фамилия</label>
+                  <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                  <label>Телефон</label>
+                  <input type="tel" name="phone" required>
+                </div>
+
+                <h3 style="margin-top: 1.5rem;">🏠 Адрес доставки</h3>
+                <div class="form-group">
+                  <label>Адрес (улица, дом, квартира)</label>
+                  <input type="text" name="address" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">Оформить заказ</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="summary">
+            <h4>📦 Ваш заказ</h4>
+            <div id="orderSummary" style="min-height: 100px;">
+              <p style="color: #999;">Выберите товар из каталога</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Лавка у Оливандера. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/recommendations.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const selected = JSON.parse(localStorage.getItem('selectedProduct') || '{}');
+      const summary = document.getElementById('orderSummary');
+      
+      if (selected.id) {
+        const total = (selected.price || 0) * (selected.quantity || 1);
+        summary.innerHTML = `
+          <div class="summary-item">
+            <span>${selected.name}</span>
+            <span>${selected.price} ₽ x ${selected.quantity}</span>
+          </div>
+          <div class="summary-total">
+            <span>Итого:</span>
+            <span>${total} ₽</span>
+          </div>
+        `;
+      }
+      
+      if (window.recommendationWidget) {
+        window.recommendationWidget.renderPopular('popular-products-container', 5);
+      }
+    });
+  </script>
+</body>
+</html>

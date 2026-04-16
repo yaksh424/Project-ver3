@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="100%" height="100%" fill="#fffaf0"/>
+  <g transform="translate(20,20)">
+    <rect x="20" y="20" width="18" height="120" rx="9" fill="#7b4b1a"/>
+    <path d="M50 120 q40 20 80 0" fill="#f0c27b" stroke="#d18b3a" stroke-width="4"/>
+    <text x="10" y="160" font-family="Arial" font-size="14" fill="#7b4b1a">Метла</text>
+  </g>
+</svg>

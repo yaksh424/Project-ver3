@@ -1,0 +1,83 @@
+<!-- 
+  Пример интеграции системы рекомендаций на страницу товара
+  "Лавка у Оливандера"
+  
+  Добавьте этот код в ваш catalog/product.html перед закрывающим </body>
+-->
+
+<!-- Рекомендации на странице товара -->
+<section class="product-page-recommendations">
+  
+  <!-- Похожие товары из той же категории -->
+  <div class="recommendation-section">
+    <div id="similar-products-placeholder" class="loading">
+      <p>🔍 Ищем похожие предметы волшебства...</p>
+    </div>
+  </div>
+
+  <!-- Товары, которые часто покупают вместе с этим -->
+  <div class="recommendation-section">
+    <div id="together-products-placeholder" class="loading">
+      <p>🛒 Подбираем идеальные сочетания...</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- Подключить стили и скрипты (если они еще не подключены) -->
+<link rel="stylesheet" href="/assets/css/recommendations.css">
+<script src="/assets/js/recommendations.js"></script>
+
+<!-- Инициализация рекомендаций для страницы товара -->
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Получить ID товара из URL
+    const params = new URLSearchParams(window.location.search);
+    const productId = parseInt(params.get('id'));
+    
+    if (!productId) {
+      console.error('ID товара не найден в URL');
+      return;
+    }
+    
+    // Небольшая задержка для загрузки DOM
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // Загрузить похожие товары (5 товаров)
+    recommendationWidget.renderSimilar('similar-products-placeholder', productId, 5);
+    
+    // Загрузить товары, которые часто покупают вместе (4 товара)
+    recommendationWidget.renderTogether('together-products-placeholder', productId, 4);
+  });
+</script>
+
+<!-- Альтернативный вариант с более подробной информацией -->
+<script>
+  // Расширенный пример с логированием
+  document.addEventListener('DOMContentLoaded', async () => {
+    const params = new URLSearchParams(window.location.search);
+    const productId = parseInt(params.get('id'));
+    
+    if (!productId) return;
+    
+    // Логируем просмотр товара
+    console.log('📊 Просмотр товара:', productId);
+    recommendationWidget.trackView(productId);
+    
+    // Загружаем рекомендации
+    await Promise.all([
+      new Promise(resolve => {
+        recommendationWidget.renderSimilar('similar-products-placeholder', productId, 5);
+        resolve();
+      }),
+      new Promise(resolve => {
+        recommendationWidget.renderTogether('together-products-placeholder', productId, 4);
+        resolve();
+      })
+    ]);
+    
+    // Получаем и логируем статистику
+    const stats = await recommendationWidget.getStats();
+    console.log('📈 Статистика магазина:', stats);
+  });
+</script>

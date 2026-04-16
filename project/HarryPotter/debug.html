@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>🔧 Отладка системы рекомендаций</title>
+  <style>
+    body { font-family: Arial; margin: 20px; background: #f0f0f0; }
+    .box { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #667eea; }
+    .success { border-left-color: green; }
+    .error { border-left-color: red; }
+    .warning { border-left-color: orange; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
+    button { padding: 10px 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #764ba2; }
+  </style>
+</head>
+<body>
+  <h1>🔧 Отладка рекомендаций</h1>
+  
+  <div id="results"></div>
+  
+  <br>
+  <button onclick="testAPI()">🧪 Тестировать API</button>
+  <button onclick="testWidget()">🧪 Тестировать виджет</button>
+  <button onclick="testRender()">🧪 Тестировать renderHome</button>
+  
+  <script>
+    const results = document.getElementById('results');
+    
+    function log(title, message, type = 'warning') {
+      const box = document.createElement('div');
+      box.className = `box ${type}`;
+      box.innerHTML = `<strong>${title}</strong><br><code>${message}</code>`;
+      results.appendChild(box);
+      console.log(title, message);
+    }
+    
+    async function testAPI() {
+      log('📡 Проверяю API...', 'Отправляю запрос на /api/recommendations/home', 'warning');
+      
+      try {
+        const response = await fetch('/api/recommendations/home?limit=2');
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const data = await response.json();
+        log('✓ API работает!', JSON.stringify(data, null, 2), 'success');
+      } catch (error) {
+        log('✗ API ошибка:', error.message, 'error');
+      }
+    }
+    
+    function testWidget() {
+      log('🧩 Проверяю виджет...', 'Ищу window.recommendationWidget', 'warning');
+      
+      if (window.recommendationWidget) {
+        log('✓ Виджет существует', JSON.stringify({
+          apiBase: window.recommendationWidget.apiBase,
+          userHistory: window.recommendationWidget.userHistory,
+          methods: Object.getOwnPropertyNames(Object.getPrototypeOf(window.recommendationWidget))
+        }, null, 2), 'success');
+      } else {
+        log('✗ Виджет НЕ существует', 'window.recommendationWidget === undefined', 'error');
+      }
+    }
+    
+    async function testRender() {
+      log('🎨 Тестирую renderHome...', 'Создаю контейнер и вызываю renderHome', 'warning');
+      
+      // Создаем тестовый контейнер
+      const container = document.createElement('div');
+      container.id = 'test-recommendations-container';
+      container.style.marginTop = '20px';
+      container.style.padding = '15px';
+      container.style.background = '#f9f9f9';
+      container.style.border = '2px dashed #667eea';
+      results.appendChild(container);
+      
+      try {
+        if (!window.recommendationWidget) {
+          throw new Error('recommendationWidget не инициализирован');
+        }
+        
+        await window.recommendationWidget.renderHome('test-recommendations-container', 3);
+        log('✓ renderHome завершился', 'Содержимое загружено в контейнер', 'success');
+      } catch (error) {
+        log('✗ renderHome ошибка:', error.message, 'error');
+      }
+    }
+  </script>
+</body>
+</html>

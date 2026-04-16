@@ -1,0 +1,48 @@
+<!-- 
+  Пример интеграции системы рекомендаций на главную страницу
+  "Лавка у Оливандера"
+  
+  Добавьте этот код в ваш index.html перед закрывающим </body>
+-->
+
+<!-- Рекомендации должны быть загружены после основного контента -->
+<section class="home-recommendations-wrapper">
+  <div class="recommendations-container">
+    <div id="recommendations-container" class="loading">
+      <p>✨ Загружаем рекомендации волшебства...</p>
+    </div>
+  </div>
+</section>
+
+<!-- Подключить стили рекомендаций -->
+<link rel="stylesheet" href="/assets/css/recommendations.css">
+
+<!-- Подключить скрипт рекомендаций -->
+<script src="/assets/js/recommendations.js"></script>
+
+<!-- Инициализация рекомендаций -->
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Загрузить рекомендации для главной страницы
+    // limit = количество товаров в каждой секции
+    await new Promise(resolve => setTimeout(resolve, 500)); // Даём время на загрузку DOM
+    
+    recommendationWidget.renderHome('recommendations-container', 6);
+  });
+</script>
+
+<!-- CSS для контейнера рекомендаций (если его нет в основном style.css) -->
+<style>
+  .recommendations-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 2rem;
+    color: #ffd700;
+    font-size: 1.1rem;
+  }
+</style>
